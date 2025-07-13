@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SolusiYa - Find Free Help Near You</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; }
+    header {
+      background: #014a63;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    form {
+      padding: 1rem;
+      background: #f2f2f2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    form select, form button {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    #map {
+      height: 80vh;
+    }
+    @media (max-width: 600px) {
+      form {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SolusiYa</h1>
+    <p>Find free food, shelter, or health support near you</p>
+    <select id="lang-select">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="pt">Português</option>
+    </select>
+  </header>
+
+  <form id="helpForm">
+    <select id="country">
+      <option value="all">🌎 All Countries</option>
+      <option value="usa">🇺🇸 USA</option>
+      <option value="brazil">🇧🇷 Brazil</option>
+    </select>
+    <select id="type">
+      <option value="all">All Help Types</option>
+      <option value="food">Food</option>
+      <option value="shelter">Shelter</option>
+      <option value="medical">Medical</option>
+    </select>
+    <button type="submit">Find Help</button>
+  </form>
+
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([18.7357, -70.1627], 4);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    const helpCenters = [
+      {
+        name: "Red Cross NYC",
+        address: "520 W 49th St, New York, NY",
+        country: "usa",
+        lat: 40.7653,
+        lng: -73.9927,
+        services: ["food", "shelter"]
+      },
+      {
+        name: "São Paulo Mission",
+        address: "Av. Paulista, São Paulo",
+        country: "brazil",
+        lat: -23.5614,
+        lng: -46.6556,
+        services: ["food", "shelter", "medical"]
+      }
+    ];
+
+    const markers = [];
+
+    function renderMarkers(data) {
+      markers.forEach(m => map.removeLayer(m));
+      data.forEach(loc => {
+        const m = L.marker([loc.lat, loc.lng])
+          .addTo(map)
+          .bindPopup(`<strong>${loc.name}</strong><br>${loc.address}<br><em>${loc.services.join(', ')}</em>`);
+        markers.push(m);
+      });
+    }
+
+    function filterLocations(country, type) {
+      return helpCenters.filter(loc => {
+        const countryMatch = country === "all" || loc.country === country;
+        const typeMatch = type === "all" || loc.services.includes(type);
+        return countryMatch && typeMatch;
+      });
+    }
+
+    document.getElementById('helpForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const country = document.getElementById('country').value;
+      const type = document.getElementById('type').value;
+      const filtered = filterLocations(country, type);
+      renderMarkers(filtered);
+      if (filtered.length) {
+        map.setView([filtered[0].lat, filtered[0].lng], 6);
+      }
+    });
+
+    renderMarkers(helpCenters); // Load all by default
+  </script>
+</body>
+</html>
