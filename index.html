@@ -53,12 +53,21 @@
       <option value="usa">🇺🇸 USA</option>
       <option value="brazil">🇧🇷 Brazil</option>
     </select>
+
+    <select id="state" style="display:none;">
+      <option value="all">All States</option>
+      <option value="ny">New York</option>
+      <option value="ca">California</option>
+      <option value="fl">Florida</option>
+    </select>
+
     <select id="type">
       <option value="all">All Help Types</option>
       <option value="food">Food</option>
       <option value="shelter">Shelter</option>
       <option value="medical">Medical</option>
     </select>
+
     <button type="submit">Find Help</button>
   </form>
 
@@ -66,7 +75,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    const map = L.map('map').setView([18.7357, -70.1627], 4);
+    const map = L.map('map').setView([37.8, -96], 4);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
@@ -77,9 +86,28 @@
         name: "Red Cross NYC",
         address: "520 W 49th St, New York, NY",
         country: "usa",
+        state: "ny",
         lat: 40.7653,
         lng: -73.9927,
         services: ["food", "shelter"]
+      },
+      {
+        name: "Los Angeles Mission",
+        address: "303 E 5th St, Los Angeles, CA",
+        country: "usa",
+        state: "ca",
+        lat: 34.0446,
+        lng: -118.2478,
+        services: ["food", "shelter"]
+      },
+      {
+        name: "Camillus House - Miami",
+        address: "1603 NW 7th Ave, Miami, FL",
+        country: "usa",
+        state: "fl",
+        lat: 25.7893,
+        lng: -80.2082,
+        services: ["food", "medical"]
       },
       {
         name: "São Paulo Mission",
@@ -103,26 +131,37 @@
       });
     }
 
-    function filterLocations(country, type) {
+    function filterLocations(country, state, type) {
       return helpCenters.filter(loc => {
         const countryMatch = country === "all" || loc.country === country;
+        const stateMatch = country !== "usa" || state === "all" || loc.state === state;
         const typeMatch = type === "all" || loc.services.includes(type);
-        return countryMatch && typeMatch;
+        return countryMatch && stateMatch && typeMatch;
       });
     }
+
+    document.getElementById('country').addEventListener('change', function () {
+      const stateSelect = document.getElementById('state');
+      if (this.value === 'usa') {
+        stateSelect.style.display = 'inline-block';
+      } else {
+        stateSelect.style.display = 'none';
+      }
+    });
 
     document.getElementById('helpForm').addEventListener('submit', e => {
       e.preventDefault();
       const country = document.getElementById('country').value;
+      const state = document.getElementById('state').value;
       const type = document.getElementById('type').value;
-      const filtered = filterLocations(country, type);
+      const filtered = filterLocations(country, state, type);
       renderMarkers(filtered);
       if (filtered.length) {
         map.setView([filtered[0].lat, filtered[0].lng], 6);
       }
     });
 
-    renderMarkers(helpCenters); // Load all by default
+    renderMarkers(helpCenters);
   </script>
 </body>
 </html>
