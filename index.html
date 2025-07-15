@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF- />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SolusiYa - Find Free Help Near You</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -56,15 +56,62 @@
 
     <select id="state" style="display:none;">
       <option value="all">All States</option>
-      <option value="ny">New York</option>
+      <option value="al">Alabama</option>
+      <option value="ak">Alaska</option>
+      <option value="az">Arizona</option>
+      <option value="ar">Arkansas</option>
       <option value="ca">California</option>
+      <option value="co">Colorado</option>
+      <option value="ct">Connecticut</option>
+      <option value="de">Delaware</option>
       <option value="fl">Florida</option>
+      <option value="ga">Georgia</option>
+      <option value="hi">Hawaii</option>
+      <option value="id">Idaho</option>
+      <option value="il">Illinois</option>
+      <option value="in">Indiana</option>
+      <option value="ia">Iowa</option>
+      <option value="ks">Kansas</option>
+      <option value="ky">Kentucky</option>
+      <option value="la">Louisiana</option>
+      <option value="me">Maine</option>
+      <option value="md">Maryland</option>
+      <option value="ma">Massachusetts</option>
+      <option value="mi">Michigan</option>
+      <option value="mn">Minnesota</option>
+      <option value="ms">Mississippi</option>
+      <option value="mo">Missouri</option>
+      <option value="mt">Montana</option>
+      <option value="ne">Nebraska</option>
+      <option value="nv">Nevada</option>
+      <option value="nh">New Hampshire</option>
+      <option value="nj">New Jersey</option>
+      <option value="nm">New Mexico</option>
+      <option value="ny">New York</option>
+      <option value="nc">North Carolina</option>
+      <option value="nd">North Dakota</option>
+      <option value="oh">Ohio</option>
+      <option value="ok">Oklahoma</option>
+      <option value="or">Oregon</option>
+      <option value="pa">Pennsylvania</option>
+      <option value="ri">Rhode Island</option>
+      <option value="sc">South Carolina</option>
+      <option value="sd">South Dakota</option>
+      <option value="tn">Tennessee</option>
+      <option value="tx">Texas</option>
+      <option value="ut">Utah</option>
+      <option value="vt">Vermont</option>
+      <option value="va">Virginia</option>
+      <option value="wa">Washington</option>
+      <option value="wv">West Virginia</option>
+      <option value="wi">Wisconsin</option>
+      <option value="wy">Wyoming</option>
     </select>
 
     <select id="type">
       <option value="all">All Help Types</option>
-      <option value="food">Food</option>
       <option value="shelter">Shelter</option>
+      <option value="food">Food</option>
       <option value="medical">Medical</option>
     </select>
 
@@ -81,43 +128,7 @@
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    const helpCenters = [
-      {
-        name: "Red Cross NYC",
-        address: "520 W 49th St, New York, NY",
-        country: "usa",
-        state: "ny",
-        lat: 40.7653,
-        lng: -73.9927,
-        services: ["food", "shelter"]
-      },
-      {
-        name: "Los Angeles Mission",
-        address: "303 E 5th St, Los Angeles, CA",
-        country: "usa",
-        state: "ca",
-        lat: 34.0446,
-        lng: -118.2478,
-        services: ["food", "shelter"]
-      },
-      {
-        name: "Camillus House - Miami",
-        address: "1603 NW 7th Ave, Miami, FL",
-        country: "usa",
-        state: "fl",
-        lat: 25.7893,
-        lng: -80.2082,
-        services: ["food", "medical"]
-      },
-      {
-        name: "São Paulo Mission",
-        address: "Av. Paulista, São Paulo",
-        country: "brazil",
-        lat: -23.5614,
-        lng: -46.6556,
-        services: ["food", "shelter", "medical"]
-      }
-    ];
+    const helpCenters = [/* PASTE VERIFIED SHELTER LIST HERE (50 entries) */];
 
     const markers = [];
 
@@ -142,11 +153,7 @@
 
     document.getElementById('country').addEventListener('change', function () {
       const stateSelect = document.getElementById('state');
-      if (this.value === 'usa') {
-        stateSelect.style.display = 'inline-block';
-      } else {
-        stateSelect.style.display = 'none';
-      }
+      stateSelect.style.display = this.value === 'usa' ? 'inline-block' : 'none';
     });
 
     document.getElementById('helpForm').addEventListener('submit', e => {
