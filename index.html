@@ -33,51 +33,63 @@
         flex-direction: column;
         align-items: center;
       }
-    }.calculator-box {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  background: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  font-size: 1rem;
-  color: #000;
-}
+    }
 
-.calculator-box h2 {
-  margin-top: 0;
-  text-align: center;
-}
+    .calculator-box {
+      max-width: 400px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-size: 1rem;
+      color: #000;
+      font-family: 'Arial', sans-serif;
+    }
 
-.calculator-box label {
-  display: block;
-  margin-bottom: 0.8rem;
-}
+    .calculator-box h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
 
-.calculator-box input {
-  width: 100%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  margin-top: 0.3rem;
-  box-sizing: border-box;
-}
+    .calculator-box label {
+      display: block;
+      margin: 0.5rem 0;
+      font-weight: bold;
+    }
 
-.calculator-box button {
-  width: 100%;
-  padding: 0.6rem;
-  font-size: 1rem;
-  margin-top: 1rem;
-  background: #014a63;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+    .calculator-box input {
+      width: 100%;
+      padding: 0.4rem;
+      margin-top: 0.25rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
 
-.calculator-box button:hover {
-  background: #026e91;
-}
+    .calculator-box button {
+      margin-top: 1rem;
+      width: 100%;
+      background: #014a63;
+      color: white;
+      padding: 0.6rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .calculator-box button:hover {
+      background: #02678d;
+    }
+
+    #paycheckResult {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #014a63;
+    }
   </style>
 </head>
 <body>
@@ -345,7 +357,8 @@
     container.style.maxWidth = "400px";
     container.style.margin = "20px auto";
     container.style.padding = "1rem";
-    container.innerHTML = `
+    
+const container = document.getElementById("toolContent");
 container.innerHTML = `
   <div class="calculator-box">
     <h2>💵 <span id="toolTitle">Paycheck Calculator (USA)</span></h2>
