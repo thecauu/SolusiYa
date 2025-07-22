@@ -33,7 +33,51 @@
         flex-direction: column;
         align-items: center;
       }
-    }
+    }.calculator-box {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-size: 1rem;
+  color: #000;
+}
+
+.calculator-box h2 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.calculator-box label {
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+.calculator-box input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-top: 0.3rem;
+  box-sizing: border-box;
+}
+
+.calculator-box button {
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 1rem;
+  margin-top: 1rem;
+  background: #014a63;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.calculator-box button:hover {
+  background: #026e91;
+}
   </style>
 </head>
 <body>
@@ -56,7 +100,7 @@
   </nav>
 
   <!-- 🔧 Tool Output Box -->
-  <div id="toolContent" style="padding: 1rem; display:none; background:#fff; color:#000;"></div>
+<div id="toolContent" class="calculator-box" style="display: none;"></div>
   
   <form id="helpForm">
     <select id="country">
@@ -275,76 +319,96 @@
     }
   });
 
+  <script>
   renderMarkers(helpCenters);
-  function loadTool(tool) {
-  const container = document.getElementById('toolContent');
-  container.innerHTML = '';
-  container.style.display = tool ? 'block' : 'none';
 
-  if (tool === 'paycheck') {
+  function loadTool(tool) {
+    const toolBox = document.getElementById("toolContent");
+    const mapBox = document.getElementById("map");
+
+    if (tool === "paycheck") {
+      toolBox.style.display = "block";
+      mapBox.style.display = "none";
+      renderPaycheckCalculator();
+    } else {
+      toolBox.style.display = "none";
+      mapBox.style.display = "block";
+    }
+  }
+
+  function renderPaycheckCalculator() {
+    const container = document.getElementById("toolContent");
+    container.style.background = "#fff";
+    container.style.color = "#000";
+    container.style.border = "1px solid #ccc";
+    container.style.borderRadius = "8px";
+    container.style.maxWidth = "400px";
+    container.style.margin = "20px auto";
+    container.style.padding = "1rem";
     container.innerHTML = `
-      <h2>💵 <span id="toolTitle">Paycheck Calculator (USA)</span></h2>
-      <label><span id="incomeLabel">Hourly wage:</span> <input type="number" id="wage" placeholder="24" /></label><br>
-      <label><span id="hoursLabel">Hours per week:</span> <input type="number" id="hours" placeholder="40" /></label><br>
-      <label><span id="taxLabel">Estimated tax rate (%):</span> <input type="number" id="tax" placeholder="15" /></label><br>
-      <button onclick="calculatePaycheck()"><span id="calculateBtn">Calculate</span></button>
-      <p id="paycheckResult"></p>
-    `;
+container.innerHTML = `
+  <div class="calculator-box">
+    <h2>💵 <span id="toolTitle">Paycheck Calculator (USA)</span></h2>
+    <label><span id="incomeLabel">Hourly wage:</span> <input type="number" id="wage" placeholder="24" /></label><br>
+    <label><span id="hoursLabel">Hours per week:</span> <input type="number" id="hours" placeholder="40" /></label><br>
+    <label><span id="taxLabel">Estimated tax rate (%):</span> <input type="number" id="tax" placeholder="15" /></label><br>
+    <button onclick="calculatePaycheck()"><span id="calculateBtn">Calculate</span></button>
+    <p id="paycheckResult"></p>
+  </div>
+`;
     applyToolLanguage(document.getElementById('lang-select').value);
   }
-}
 
-function calculatePaycheck() {
-  const wage = parseFloat(document.getElementById('wage').value);
-  const hours = parseFloat(document.getElementById('hours').value);
-  const tax = parseFloat(document.getElementById('tax').value);
-  if (isNaN(wage) || isNaN(hours) || isNaN(tax)) {
-    document.getElementById('paycheckResult').textContent = "❌ Please fill out all fields correctly.";
-    return;
-  }
-  const gross = wage * hours;
-  const net = gross * (1 - tax / 100);
-  document.getElementById('paycheckResult').textContent =
-    `🧾 Gross: $${gross.toFixed(2)} | Net: $${net.toFixed(2)} / week`;
-}
-
-function applyToolLanguage(lang) {
-  const t = {
-    en: {
-      title: "Paycheck Calculator (USA)",
-      income: "Hourly wage:",
-      hours: "Hours per week:",
-      tax: "Estimated tax rate (%):",
-      calc: "Calculate"
-    },
-    es: {
-      title: "Calculadora de Sueldo (EE.UU.)",
-      income: "Pago por hora:",
-      hours: "Horas por semana:",
-      tax: "Tasa de impuesto estimada (%):",
-      calc: "Calcular"
-    },
-    pt: {
-      title: "Calculadora de Salário (EUA)",
-      income: "Salário por hora:",
-      hours: "Horas por semana:",
-      tax: "Taxa de imposto estimada (%):",
-      calc: "Calcular"
+  function calculatePaycheck() {
+    const wage = parseFloat(document.getElementById('wage').value);
+    const hours = parseFloat(document.getElementById('hours').value);
+    const tax = parseFloat(document.getElementById('tax').value);
+    if (isNaN(wage) || isNaN(hours) || isNaN(tax)) {
+      document.getElementById('paycheckResult').textContent = "❌ Please fill out all fields correctly.";
+      return;
     }
-  };
-  const i = t[lang];
-  if (i) {
-    document.getElementById("toolTitle").textContent = i.title;
-    document.getElementById("incomeLabel").textContent = i.income;
-    document.getElementById("hoursLabel").textContent = i.hours;
-    document.getElementById("taxLabel").textContent = i.tax;
-    document.getElementById("calculateBtn").textContent = i.calc;
+    const gross = wage * hours;
+    const net = gross * (1 - tax / 100);
+    document.getElementById('paycheckResult').textContent =
+      `🧾 Gross: $${gross.toFixed(2)} | Net: $${net.toFixed(2)} / week`;
   }
-}
 
-// Update language if changed
-document.getElementById("lang-select").addEventListener("change", () => {
-  const tool = document.getElementById("toolMenu").value;
-  if (tool) applyToolLanguage(document.getElementById('lang-select').value);
-});
+  function applyToolLanguage(lang) {
+    const t = {
+      en: {
+        title: "Paycheck Calculator (USA)",
+        income: "Hourly wage:",
+        hours: "Hours per week:",
+        tax: "Estimated tax rate (%):",
+        calc: "Calculate"
+      },
+      es: {
+        title: "Calculadora de Sueldo (EE.UU.)",
+        income: "Pago por hora:",
+        hours: "Horas por semana:",
+        tax: "Tasa de impuesto estimada (%):",
+        calc: "Calcular"
+      },
+      pt: {
+        title: "Calculadora de Salário (EUA)",
+        income: "Salário por hora:",
+        hours: "Horas por semana:",
+        tax: "Taxa de imposto estimada (%):",
+        calc: "Calcular"
+      }
+    };
+    const i = t[lang];
+    if (i) {
+      document.getElementById("toolTitle").textContent = i.title;
+      document.getElementById("incomeLabel").textContent = i.income;
+      document.getElementById("hoursLabel").textContent = i.hours;
+      document.getElementById("taxLabel").textContent = i.tax;
+      document.getElementById("calculateBtn").textContent = i.calc;
+    }
+  }
+
+  document.getElementById("lang-select").addEventListener("change", () => {
+    const tool = document.getElementById("toolMenu").value;
+    if (tool) applyToolLanguage(document.getElementById('lang-select').value);
+  });
 </script>
