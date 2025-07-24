@@ -5,92 +5,93 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SolusiYa - Find Free Help Near You</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <style>
-    body { margin: 0; font-family: Arial, sans-serif; }
-    header {
-      background: #014a63;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
+<style>
+  body { margin: 0; font-family: Arial, sans-serif; }
+  header {
+    background: #014a63;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+  }
+  form {
+    padding: 1rem;
+    background: #f2f2f2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  form select, form button {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  #map {
+    height: 80vh;
+  }
+  @media (max-width: 600px) {
     form {
-      padding: 1rem;
-      background: #f2f2f2;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
     }
-    form select, form button {
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-    #map {
-      height: 80vh;
-    }
-    @media (max-width: 600px) {
-      form {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
+  }
 
-    .calculator-box {
-      max-width: 400px;
-      margin: 2rem auto;
-      padding: 1.5rem;
-      background: #ffffff;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      font-size: 1rem;
-      color: #000;
-      font-family: 'Arial', sans-serif;
-    }
+  .calculator-box {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    color: #000;
+  }
 
-    .calculator-box h2 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
+  .calculator-box h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
 
-    .calculator-box label {
-      display: block;
-      margin: 0.5rem 0;
-      font-weight: bold;
-    }
+  .calculator-box label {
+    display: block;
+    margin: 0.5rem 0;
+    font-weight: bold;
+  }
 
-    .calculator-box input {
-      width: 100%;
-      padding: 0.4rem;
-      margin-top: 0.25rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
+  .calculator-box input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
 
-    .calculator-box button {
-      margin-top: 1rem;
-      width: 100%;
-      background: #014a63;
-      color: white;
-      padding: 0.6rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+  .calculator-box button {
+    margin-top: 1rem;
+    width: 100%;
+    background: #014a63;
+    color: white;
+    padding: 0.6rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
 
-    .calculator-box button:hover {
-      background: #02678d;
-    }
+  .calculator-box button:hover {
+    background: #02678d;
+  }
 
-    #paycheckResult {
-      text-align: center;
-      margin-top: 1rem;
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #014a63;
-    }
-  </style>
+  #paycheckResult {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #014a63;
+  }
+</style>
 </head>
 <body>
   <header>
