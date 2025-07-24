@@ -190,15 +190,7 @@
   <div id="map"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-  const map = L.map('map').setView([37.8, -96], 4);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(map);
-</script>
-
-  const helpCenters = [
+const helpCenters = [
     { name: "Downtown Rescue Mission", address: "1400 Evangel Dr NW, Huntsville, AL", country: "usa", state: "al", lat: 34.7532, lng: -86.6031, services: ["shelter"] },
     { name: "Food Bank of North Alabama", address: "2000-B Vernon Ave SW, Huntsville, AL", country: "usa", state: "al", lat: 34.7147, lng: -86.6052, services: ["food"] },
     { name: "Downtown Hope Center", address: "240 E 3rd Ave, Anchorage, AK", country: "usa", state: "ak", lat: 61.2181, lng: -149.8855, services: ["shelter"] },
@@ -297,6 +289,14 @@
     { name: "Feeding America Eastern Wisconsin", address: "1700 W Fond du Lac Ave, Milwaukee, WI", country: "usa", state: "wi", lat: 43.0667, lng: -87.9439, services: ["food"] },
     { name: "Wyoming Rescue Mission", address: "230 N Park St, Casper, WY", country: "usa", state: "wy", lat: 42.8499, lng: -106.316, services: ["shelter"] },
     { name: "Wyoming Food Bank", address: "4967 N Yellowstone Hwy, Evansville, WY", country: "usa", state: "wy", lat: 42.857, lng: -106.2663, services: ["food"] }
+
+  const map = L.map('map').setView([37.8, -96], 4);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+</script>
+
 ]; const markers = [];
 
   function renderMarkers(data) {
@@ -428,17 +428,6 @@ container.innerHTML = `
     const tool = document.getElementById("toolMenu").value;
     if (tool) applyToolLanguage(document.getElementById('lang-select').value);
   });
-</script>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-<script>
-  const map = L.map('map').setView([37.8, -96], 4);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(map);
-</script>
 
 </body>
 </html>
