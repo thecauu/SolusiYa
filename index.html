@@ -115,7 +115,7 @@
   </nav>
 
   <!-- 🔧 Tool Output Box -->
-<div id="toolContent" class="calculator-box">
+<div id="toolBox" style="display:none;"></div>
   
   <form id="helpForm">
     <select id="country">
@@ -186,6 +186,8 @@
 
     <button type="submit">Find Help</button>
   </form>
+  
+  <div id="toolBox" style="display:none;"></div>
 
   <div id="map"></div>
 
@@ -335,11 +337,12 @@ const helpCenters = [
     }
   });
 
-  <script>
+<script>
+window.onload = () => {
   renderMarkers(helpCenters);
 
   function loadTool(tool) {
-    const toolBox = document.getElementById("toolContent");
+    const toolBox = document.getElementById("toolBox");
     const mapBox = document.getElementById("map");
 
     if (tool === "paycheck") {
@@ -428,6 +431,6 @@ container.innerHTML = `
     const tool = document.getElementById("toolMenu").value;
     if (tool) applyToolLanguage(document.getElementById('lang-select').value);
   });
-
+</script>
 </body>
 </html>
