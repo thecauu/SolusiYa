@@ -6,7 +6,6 @@
   <title>SolusiYa – Find Free Help Near You</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://unpkg.com/[your-current-stylesheet].css" />
 <style>
   body { margin: 0; font-family: Arial, sans-serif; }
   header {
@@ -115,7 +114,19 @@
   </nav>
 
   <!-- 🔧 Tool Output Box -->
-<div id="toolBox" style="display:none;"></div>
+<div id="toolBox" style="display:none;">
+  <h2>Paycheck Calculator</h2>
+  <form id="paycheckForm">
+    <label for="hours">Hours Worked:</label>
+    <input type="number" id="hours" required><br>
+
+    <label for="rate">Hourly Rate ($):</label>
+    <input type="number" id="rate" required><br>
+
+    <button type="submit">Calculate</button>
+  </form>
+  <div id="result"></div>
+</div>
   
   <form id="helpForm">
     <select id="country">
@@ -186,12 +197,12 @@
 
     <button type="submit">Find Help</button>
   </form>
-  
-  <div id="toolBox" style="display:none;"></div>
 
   <div id="map"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
 const helpCenters = [
     { name: "Downtown Rescue Mission", address: "1400 Evangel Dr NW, Huntsville, AL", country: "usa", state: "al", lat: 34.7532, lng: -86.6031, services: ["shelter"] },
     { name: "Food Bank of North Alabama", address: "2000-B Vernon Ave SW, Huntsville, AL", country: "usa", state: "al", lat: 34.7147, lng: -86.6052, services: ["food"] },
@@ -292,54 +303,54 @@ const helpCenters = [
     { name: "Wyoming Rescue Mission", address: "230 N Park St, Casper, WY", country: "usa", state: "wy", lat: 42.8499, lng: -106.316, services: ["shelter"] },
     { name: "Wyoming Food Bank", address: "4967 N Yellowstone Hwy, Evansville, WY", country: "usa", state: "wy", lat: 42.857, lng: -106.2663, services: ["food"] }
 
-  const map = L.map('map').setView([37.8, -96], 4);
+const map = L.map('map').setView([37.8, -96], 4);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(map);
-</script>
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors'
+}).addTo(map);
 
-]; const markers = [];
+const markers = [];
 
-  function renderMarkers(data) {
-    markers.forEach(m => map.removeLayer(m));
-    data.forEach(loc => {
-      const m = L.marker([loc.lat, loc.lng])
-        .addTo(map)
-        .bindPopup(`<strong>${loc.name}</strong><br>${loc.address}<br><em>${loc.services.join(', ')}</em>`);
-      markers.push(m);
-    });
-  }
-
-  function filterLocations(country, state, type) {
-    return helpCenters.filter(loc => {
-      const countryMatch = country === "all" || loc.country === country;
-      const stateMatch = country !== "usa" || state === "all" || loc.state === state;
-      const typeMatch = type === "all" || loc.services.includes(type);
-      return countryMatch && stateMatch && typeMatch;
-    });
-  }
-
-  document.getElementById('country').addEventListener('change', function () {
-    const stateSelect = document.getElementById('state');
-    stateSelect.style.display = this.value === 'usa' ? 'inline-block' : 'none';
+function renderMarkers(data) {
+  markers.forEach(m => map.removeLayer(m));
+  data.forEach(loc => {
+    const m = L.marker([loc.lat, loc.lng])
+      .addTo(map)
+      .bindPopup(`<strong>${loc.name}</strong><br>${loc.address}`);
+    markers.push(m);
   });
+}
 
-  document.getElementById('helpForm').addEventListener('submit', e => {
-    e.preventDefault();
-    const country = document.getElementById('country').value;
-    const state = document.getElementById('state').value;
-    const type = document.getElementById('type').value;
-    const filtered = filterLocations(country, state, type);
-    renderMarkers(filtered);
-    if (filtered.length) {
-      map.setView([filtered[0].lat, filtered[0].lng], 6);
-    }
+function filterLocations(country, state, type) {
+  return helpCenters.filter(loc => {
+    const countryMatch = country === "all" || loc.country === country;
+    const stateMatch = country !== "usa" || loc.state === state;
+    const typeMatch = type === "all" || loc.services.includes(type);
+    return countryMatch && stateMatch && typeMatch;
   });
+}
 
-<script>
+document.getElementById('country').addEventListener('change', function () {
+  const stateSelect = document.getElementById('state');
+  stateSelect.style.display = this.value === "usa" ? "inline" : "none";
+});
+
+document.getElementById('helpForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const country = document.getElementById('country').value;
+  const state = document.getElementById('state').value;
+  const type = document.getElementById('type').value;
+  const filtered = filterLocations(country, state, type);
+  renderMarkers(filtered);
+  if (filtered.length) {
+    map.setView([filtered[0].lat, filtered[0].lng], 10);
+  }
+});
+
 window.onload = () => {
   renderMarkers(helpCenters);
+};
+</script>
 
   function loadTool(tool) {
     const toolBox = document.getElementById("toolBox");
@@ -356,7 +367,7 @@ window.onload = () => {
   }
 
   function renderPaycheckCalculator() {
-    const container = document.getElementById("toolContent");
+const container = document.getElementById("toolBox");
     container.style.background = "#fff";
     container.style.color = "#000";
     container.style.border = "1px solid #ccc";
@@ -431,6 +442,21 @@ container.innerHTML = `
     const tool = document.getElementById("toolMenu").value;
     if (tool) applyToolLanguage(document.getElementById('lang-select').value);
   });
+  <script>
+  document.getElementById("paycheckForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const hours = parseFloat(document.getElementById("hours").value);
+    const rate = parseFloat(document.getElementById("rate").value);
+
+    if (isNaN(hours) || isNaN(rate)) {
+      document.getElementById("result").innerText = "Please enter valid numbers.";
+      return;
+    }
+
+    const total = hours * rate;
+    document.getElementById("result").innerText = `Estimated Paycheck: $${total.toFixed(2)}`;
+  });
+</script>
 <script>
   window.onerror = function(message, source, lineno, colno, error) {
     const errorBox = document.createElement('div');
